@@ -1,6 +1,10 @@
 # Hangman Game
 import random
 from draw_hangman import *
+import serial
+ser = serial.Serial('COM3', 9600, timeout=0)
+
+
 
 words = ["elephant", "octopus", "rabbit", "giraffe"]
 
@@ -8,7 +12,7 @@ play_word = random.choice(words)
 
 #print("Word we are playing with is... {}".format(play_word))
 num_of_letters = len(play_word)
-lives = 9
+lives = 8
 chosen_letters = []
 
 
@@ -53,6 +57,7 @@ while True:
                     print("It's a match!")
                 chosen_letters.append(letter)
                 print_hangman(lives)
+                ser.write(lives)
 
     if check_if_user_has_won(play_word, chosen_letters):
         print("\n\nWINNER!!!")
