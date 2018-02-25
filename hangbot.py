@@ -12,6 +12,8 @@ play_word = random.choice(words)
 
 #print("Word we are playing with is... {}".format(play_word))
 num_of_letters = len(play_word)
+
+
 lives = 8
 chosen_letters = []
 

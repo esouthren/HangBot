@@ -3,6 +3,8 @@
 
 #include "Adafruit_LEDBackpack.h"
 String incomingByte = "";
+String readString;
+String str = "";
 Adafruit_8x8matrix matrix = Adafruit_8x8matrix();
 
 void setup() {
@@ -42,17 +44,30 @@ static const uint8_t PROGMEM
     B00111100 };
 
 void loop() {
-  incomingByte = Serial.read();
-  matrix.setTextSize(1);
-  matrix.setTextWrap(false);  // we dont want text to wrap so it scrolls nicely
-  matrix.setTextColor(LED_ON);
-  for (int8_t x=0; x>=-36; x--) {
+
+  // serial read section
+    while (!Serial.available()) {} // wait for data to arrive
+  // serial read section
+  while (Serial.available())                           
+  {
+    delay(50);  //delay to allow buffer to fill 
+    
+    str = Serial.readStringUntil('\n');
+    
+    Serial.print("Arduino Received: ");
+    Serial.print(str);
+           matrix.setTextSize(1);
+    matrix.setTextWrap(false);  // we dont want text to wrap so it scrolls nicely
+    matrix.setTextColor(LED_ON);
+    for (int8_t x=0; x>=-36; x--) {
     matrix.clear();
     matrix.setCursor(x,0);
-    matrix.print(incomingByte);
+    matrix.print(str);
     matrix.writeDisplay();
     delay(100);
+
+
   }
 
-  matrix.setRotation(0);
+  }
 }
